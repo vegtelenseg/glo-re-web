@@ -3,17 +3,24 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { AuthController } from "./contexts/AuthContext";
+import { AuthController } from "./contexts/auth/AuthController";
 import { ThemeProvider } from "@material-ui/core";
 import { theme } from "./themes/theme";
+import { ApolloProvider } from "@apollo/client";
+import { client } from "./apolloClient";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <AuthController>
-        <App />
-      </AuthController>
-    </ThemeProvider>
+    <ApolloProvider
+      // @ts-ignore
+      client={client}
+    >
+      <ThemeProvider theme={theme}>
+        <AuthController>
+          <App />
+        </AuthController>
+      </ThemeProvider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

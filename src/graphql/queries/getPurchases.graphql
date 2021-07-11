@@ -1,0 +1,11 @@
+query getPurchases($userId: ID!) {
+  purchases(where: { user_id: $userId }) {
+    name
+    created_at
+    refNumber
+    total
+    reward {
+      points
+    }
+  }
+}

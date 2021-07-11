@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Grid, Paper, TextField } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
-import { AuthContext, UserAuthInfoType } from "../contexts/AuthContext";
+import { AuthContext, UserAuthInfoType } from "../contexts/auth/AuthController";
 import gloLo from "../assets/img/glo-lo.png";
 export interface UserInfo {
   username: string;

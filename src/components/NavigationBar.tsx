@@ -10,7 +10,7 @@ import HistoryIcon from "@material-ui/icons/History";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Rewards } from "./Rewards";
 import { Purchases } from "./Purchases";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/auth/AuthController";
 
 interface TabPanelProps {
   children?: React.ReactNode;

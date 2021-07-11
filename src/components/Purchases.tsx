@@ -21,8 +21,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
-import { AuthContext } from "../contexts/AuthContext";
-import axios from "axios";
+import { useGetPurchasesQuery } from "../generated/graphql";
+import { AuthContext } from "../contexts/auth/AuthController";
 
 interface Data {
   dateOfPurchase: Date;
@@ -114,11 +114,10 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
   const { classes, order, orderBy, onRequestSort } = props;
-  const createSortHandler = (property: keyof Data) => (
-    event: React.MouseEvent<unknown>
-  ) => {
-    onRequestSort(event, property);
-  };
+  const createSortHandler =
+    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+      onRequestSort(event, property);
+    };
 
   return (
     <TableHead>
@@ -257,39 +256,35 @@ const useStyles = makeStyles((theme: Theme) =>
 export const Purchases = () => {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>("asc");
-  const { auth, getToken } = React.useContext(AuthContext);
   const [orderBy, setOrderBy] = React.useState<keyof Data>("dateOfPurchase");
   const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
-  // const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [rows, setRows] = React.useState([]);
+  const { auth } = React.useContext(AuthContext);
+  console.log({ auth });
 
-  React.useEffect(() => {
-    if (auth.authenticated) {
-      const token = getToken();
-      axios
-        .post<any>(
-          "http://localhost:5000/rewards",
-          {
-            username: auth.username,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        // @ts-ignore
-        .then((rewards, err) => {
-          if (err) {
-            console.error("Error: ", err.message);
-            throw Error("Could not find any rewards");
-          }
-          setRows(rewards.data);
-        });
-    }
-  }, [auth, getToken]);
+  const { data } = useGetPurchasesQuery({
+    variables: {
+      userId: auth.authenticated ? auth.id : "",
+    },
+  });
+  // interface Data {
+  //   dateOfPurchase: Date;
+  //   pointsEarned: string;
+  //   totalSpent: string;
+  //   reference: string;
+  // }
+  if (!data || !data.purchases) {
+    return null;
+  }
+  const rows =
+    data?.purchases?.map((purchase) => ({
+      dateOfPurchase: purchase?.created_at ?? "",
+      pointsEarned: purchase?.reward?.points ?? "",
+      totalSpent: purchase?.total ?? 0,
+      reference: purchase?.refNumber ?? "",
+    })) ?? [];
+  console.log(data?.purchases);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -370,31 +365,33 @@ export const Purchases = () => {
             rowCount={rows.length}
           />
           <TableBody>
-            {stableSort(rows, getComparator(order, orderBy))
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row: any, index) => {
-                const isItemSelected = isSelected(row.reference);
-                const labelId = `enhanced-table-checkbox-${index}`;
-                const date = new Date(row.dateOfPurchase).toLocaleString();
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.reference)}
-                    role='checkbox'
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.reference}
-                    selected={isItemSelected}
-                  >
-                    <TableCell component='th' id={labelId} scope='row'>
-                      {row.reference}
-                    </TableCell>
-                    <TableCell align='right'>{date}</TableCell>
-                    <TableCell align='right'>{row.totalSpent}</TableCell>
-                    <TableCell align='right'>{row.pointsEarned}</TableCell>
-                  </TableRow>
-                );
-              })}
+            {data &&
+              data.purchases &&
+              stableSort(rows, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row: any, index) => {
+                  const isItemSelected = isSelected(row.reference);
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  const date = new Date(row.dateOfPurchase).toLocaleString();
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.reference)}
+                      role='checkbox'
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.reference}
+                      selected={isItemSelected}
+                    >
+                      <TableCell component='th' id={labelId} scope='row'>
+                        {row.reference}
+                      </TableCell>
+                      <TableCell align='right'>{date}</TableCell>
+                      <TableCell align='right'>{row.totalSpent}</TableCell>
+                      <TableCell align='right'>{row.pointsEarned}</TableCell>
+                    </TableRow>
+                  );
+                })}
             {emptyRows > 0 && (
               // <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
               <TableRow style={{ height: 53 * emptyRows }}>

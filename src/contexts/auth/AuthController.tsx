@@ -6,6 +6,7 @@ export type AuthContextType =
       token: string;
       authenticated: true;
       username: string;
+      id: string;
       role: string;
     }
   | {
@@ -13,8 +14,8 @@ export type AuthContextType =
     };
 
 export interface UserAuthInfoType {
-  token: string;
   username: string;
+  password: string;
 }
 
 export interface AuthContextStateType {
@@ -34,9 +35,8 @@ const AuthContextState: AuthContextStateType = {
   getToken: () => "",
 };
 
-export const AuthContext = React.createContext<AuthContextStateType>(
-  AuthContextState
-);
+export const AuthContext =
+  React.createContext<AuthContextStateType>(AuthContextState);
 
 interface Props {
   children: React.ReactNode;
@@ -53,6 +53,7 @@ export function AuthController({ children }: Props) {
           authenticated: localAuth.authenticated,
           token: localAuth.accessToken,
           username: localAuth.username,
+          id: localAuth.id,
           role: localAuth.role,
         };
       }
@@ -63,21 +64,30 @@ export function AuthController({ children }: Props) {
 
   const handleLogin = React.useCallback(
     async (userInfo: { password: string; username: string }) => {
-      const response = await axios.post(
-        `http://localhost:5000/login`,
-        userInfo
-      );
-      if (response && response.data?.authenticated) {
-        const auth: AuthContextType = {
-          authenticated: true,
-          token: response.data.accessToken,
-          username: response.data.username,
-          role: response.data.role,
-        };
-        setAuth(auth);
-        localStorage.setItem("auth", JSON.stringify(response.data));
-        // TODO: history.push('/)
-        window.location.pathname = "/";
+      try {
+        console.log("Think");
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_API_HOST}/auth/local`,
+          {
+            identifier: userInfo.username,
+            password: userInfo.password,
+          }
+        );
+        if (Boolean(data)) {
+          const auth: AuthContextType = {
+            authenticated: true,
+            token: data.jwt,
+            username: data.user.username,
+            role: data.user.role.name,
+            id: data.user.id,
+          };
+          setAuth(auth);
+          localStorage.setItem("auth", JSON.stringify(auth));
+          // TODO: history.p`ush('/)
+          window.location.pathname = "/";
+        }
+      } catch (error) {
+        console.log("Could not login: ", error.message);
       }
     },
     [setAuth]
@@ -101,7 +111,6 @@ export function AuthController({ children }: Props) {
     [auth, handleLogin, handleLogout, getToken]
   );
   return (
-    // @ts-ignore
     <AuthContext.Provider value={value}> {children} </AuthContext.Provider>
   );
 }

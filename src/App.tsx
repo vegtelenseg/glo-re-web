@@ -3,7 +3,7 @@ import { NavigationBar } from "./components/NavigationBar";
 import { Login } from "./components/Login";
 import { createBrowserHistory } from "history";
 
-import { AuthContext } from "./contexts/AuthContext";
+import { AuthContext } from "./contexts/auth/AuthController";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Router } from "react-router";
 
