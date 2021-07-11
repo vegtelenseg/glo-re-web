@@ -1,0 +1,16 @@
+mutation createUserPurchase($input: createUserPurchaseInput!) {
+  createUserPurchase(input: $input) {
+    purchase {
+      id
+      name
+      total
+      user {
+        email
+      }
+      reward {
+        points
+      }
+      refNumber
+    }
+  }
+}

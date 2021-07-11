@@ -1,5 +1,5 @@
 query getPurchases($userId: ID!) {
-  purchases(where: { user_id: $userId }) {
+  purchases(where: { user: $userId }) {
     name
     created_at
     refNumber

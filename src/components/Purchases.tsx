@@ -150,8 +150,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 const useToolbarStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(1),
+      margin: theme.spacing(2, 0),
     },
     highlight:
       theme.palette.type === "light"
@@ -268,12 +267,7 @@ export const Purchases = () => {
       userId: auth.authenticated ? auth.id : "",
     },
   });
-  // interface Data {
-  //   dateOfPurchase: Date;
-  //   pointsEarned: string;
-  //   totalSpent: string;
-  //   reference: string;
-  // }
+
   if (!data || !data.purchases) {
     return null;
   }
@@ -352,7 +346,7 @@ export const Purchases = () => {
           className={classes.table}
           aria-labelledby='tableTitle'
           // size={dense ? "small" : "medium"}
-          size='medium'
+          size='small'
           aria-label='enhanced table'
         >
           <EnhancedTableHead

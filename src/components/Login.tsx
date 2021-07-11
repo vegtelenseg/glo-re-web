@@ -42,7 +42,6 @@ export const Login = () => {
   const classes = useStyles();
   const onSubmit = async (data: UserAuthInfoType) => {
     handleLogin(data);
-    console.log("DATA: ", data);
   };
 
   return (

@@ -15,6 +15,7 @@ const useStyles = makeStyles((them) => ({
     textAlign: "center",
   },
 }));
+
 export const Rewards = () => {
   const classes = useStyles();
   return (
