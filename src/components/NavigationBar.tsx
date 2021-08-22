@@ -9,7 +9,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Rewards } from "./Rewards";
 import { Purchases } from "./Purchases";
 import { AuthContext } from "../contexts/auth/AuthController";
-import { AddReward } from "./AddReward";
+import { AddPurchaseForm } from "../forms/AddPurchaseForm";
 import { Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -42,7 +42,7 @@ export const NavigationBar = () => {
         return <Purchases />;
       case 2:
         return auth.authenticated && auth.role === "Admin" ? (
-          <AddReward />
+          <AddPurchaseForm />
         ) : (
           <Typography variant='h4' color='primary'>
             Profile page, coming soon...

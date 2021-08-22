@@ -84,7 +84,7 @@ export type LocaleInput = {
 };
 
 
-export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | Purchase | PurchaseConnection | PurchaseAggregator | PurchaseAggregatorSum | PurchaseAggregatorAvg | PurchaseAggregatorMin | PurchaseAggregatorMax | PurchaseGroupBy | PurchaseConnectionId | PurchaseConnectionCreated_At | PurchaseConnectionUpdated_At | PurchaseConnectionName | PurchaseConnectionTotal | PurchaseConnectionUser | PurchaseConnectionReward | PurchaseConnectionRefNumber | PurchaseConnectionPublished_At | CreatePurchasePayload | UpdatePurchasePayload | DeletePurchasePayload | Rewards | RewardsConnection | RewardsAggregator | RewardsAggregatorSum | RewardsAggregatorAvg | RewardsAggregatorMin | RewardsAggregatorMax | RewardsGroupBy | RewardsConnectionId | RewardsConnectionCreated_At | RewardsConnectionUpdated_At | RewardsConnectionPoints | RewardsConnectionPurchase | RewardsConnectionPublished_At | CreateRewardPayload | UpdateRewardPayload | DeleteRewardPayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | I18NLocale;
+export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | Purchase | PurchaseConnection | PurchaseAggregator | PurchaseAggregatorSum | PurchaseAggregatorAvg | PurchaseAggregatorMin | PurchaseAggregatorMax | PurchaseGroupBy | PurchaseConnectionId | PurchaseConnectionCreated_At | PurchaseConnectionUpdated_At | PurchaseConnectionName | PurchaseConnectionTotal | PurchaseConnectionUser | PurchaseConnectionReward | PurchaseConnectionRefNumber | PurchaseConnectionPublished_At | CreatePurchasePayload | UpdatePurchasePayload | DeletePurchasePayload | Rewards | RewardsConnection | RewardsAggregator | RewardsAggregatorSum | RewardsAggregatorAvg | RewardsAggregatorMin | RewardsAggregatorMax | RewardsGroupBy | RewardsConnectionId | RewardsConnectionCreated_At | RewardsConnectionUpdated_At | RewardsConnectionPoints | RewardsConnectionPurchase | RewardsConnectionUser | RewardsConnectionPublished_At | CreateRewardPayload | UpdateRewardPayload | DeleteRewardPayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | I18NLocale;
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -117,6 +117,7 @@ export type Mutation = {
   multipleUpload: Array<Maybe<UploadFile>>;
   updateFileInfo: UploadFile;
   createUserPurchase?: Maybe<CreatePurchasePayload>;
+  redeemRewards?: Maybe<CreateRewardPayload>;
 };
 
 
@@ -239,6 +240,11 @@ export type MutationUpdateFileInfoArgs = {
 
 export type MutationCreateUserPurchaseArgs = {
   input: CreateUserPurchaseInput;
+};
+
+
+export type MutationRedeemRewardsArgs = {
+  input: RedeemRewardsInput;
 };
 
 export enum PublicationState {
@@ -506,6 +512,7 @@ export type QueryFilesConnectionArgs = {
 export type RewardInput = {
   points?: Maybe<Scalars['Int']>;
   purchase?: Maybe<Scalars['ID']>;
+  user?: Maybe<Scalars['ID']>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -518,6 +525,7 @@ export type Rewards = {
   updated_at: Scalars['DateTime'];
   points?: Maybe<Scalars['Int']>;
   purchase?: Maybe<Purchase>;
+  user?: Maybe<UsersPermissionsUser>;
   published_at?: Maybe<Scalars['DateTime']>;
 };
 
@@ -594,6 +602,12 @@ export type RewardsConnectionUpdated_At = {
   connection?: Maybe<RewardsConnection>;
 };
 
+export type RewardsConnectionUser = {
+  __typename?: 'RewardsConnectionUser';
+  key?: Maybe<Scalars['ID']>;
+  connection?: Maybe<RewardsConnection>;
+};
+
 export type RewardsGroupBy = {
   __typename?: 'RewardsGroupBy';
   id?: Maybe<Array<Maybe<RewardsConnectionId>>>;
@@ -601,6 +615,7 @@ export type RewardsGroupBy = {
   updated_at?: Maybe<Array<Maybe<RewardsConnectionUpdated_At>>>;
   points?: Maybe<Array<Maybe<RewardsConnectionPoints>>>;
   purchase?: Maybe<Array<Maybe<RewardsConnectionPurchase>>>;
+  user?: Maybe<Array<Maybe<RewardsConnectionUser>>>;
   published_at?: Maybe<Array<Maybe<RewardsConnectionPublished_At>>>;
 };
 
@@ -1183,6 +1198,7 @@ export type EditPurchaseInput = {
 export type EditRewardInput = {
   points?: Maybe<Scalars['Int']>;
   purchase?: Maybe<Scalars['ID']>;
+  user?: Maybe<Scalars['ID']>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -1211,6 +1227,12 @@ export type EditUserInput = {
   purchases?: Maybe<Array<Maybe<Scalars['ID']>>>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type RedeemRewardsInput = {
+  username: Scalars['String'];
+  password: Scalars['String'];
+  amount: Scalars['Int'];
 };
 
 export type UpdatePurchaseInput = {
@@ -1271,6 +1293,26 @@ export type CreateUserPurchaseMutation = (
       )>, reward?: Maybe<(
         { __typename?: 'Rewards' }
         & Pick<Rewards, 'points'>
+      )> }
+    )> }
+  )> }
+);
+
+export type RedeemRewardsMutationVariables = Exact<{
+  input: RedeemRewardsInput;
+}>;
+
+
+export type RedeemRewardsMutation = (
+  { __typename?: 'Mutation' }
+  & { redeemRewards?: Maybe<(
+    { __typename?: 'createRewardPayload' }
+    & { reward?: Maybe<(
+      { __typename?: 'Rewards' }
+      & Pick<Rewards, 'points'>
+      & { purchase?: Maybe<(
+        { __typename?: 'Purchase' }
+        & Pick<Purchase, 'name'>
       )> }
     )> }
   )> }
@@ -1355,6 +1397,44 @@ export function useCreateUserPurchaseMutation(baseOptions?: Apollo.MutationHookO
 export type CreateUserPurchaseMutationHookResult = ReturnType<typeof useCreateUserPurchaseMutation>;
 export type CreateUserPurchaseMutationResult = Apollo.MutationResult<CreateUserPurchaseMutation>;
 export type CreateUserPurchaseMutationOptions = Apollo.BaseMutationOptions<CreateUserPurchaseMutation, CreateUserPurchaseMutationVariables>;
+export const RedeemRewardsDocument = gql`
+    mutation redeemRewards($input: redeemRewardsInput!) {
+  redeemRewards(input: $input) {
+    reward {
+      points
+      purchase {
+        name
+      }
+    }
+  }
+}
+    `;
+export type RedeemRewardsMutationFn = Apollo.MutationFunction<RedeemRewardsMutation, RedeemRewardsMutationVariables>;
+
+/**
+ * __useRedeemRewardsMutation__
+ *
+ * To run a mutation, you first call `useRedeemRewardsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRedeemRewardsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [redeemRewardsMutation, { data, loading, error }] = useRedeemRewardsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRedeemRewardsMutation(baseOptions?: Apollo.MutationHookOptions<RedeemRewardsMutation, RedeemRewardsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RedeemRewardsMutation, RedeemRewardsMutationVariables>(RedeemRewardsDocument, options);
+      }
+export type RedeemRewardsMutationHookResult = ReturnType<typeof useRedeemRewardsMutation>;
+export type RedeemRewardsMutationResult = Apollo.MutationResult<RedeemRewardsMutation>;
+export type RedeemRewardsMutationOptions = Apollo.BaseMutationOptions<RedeemRewardsMutation, RedeemRewardsMutationVariables>;
 export const GetPurchasesDocument = gql`
     query getPurchases($userId: ID!) {
   purchases(where: {user: $userId}) {

@@ -260,7 +260,6 @@ export const Purchases = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const { auth } = React.useContext(AuthContext);
-  console.log({ auth });
 
   const { data } = useGetPurchasesQuery({
     variables: {
@@ -278,7 +277,6 @@ export const Purchases = () => {
       totalSpent: purchase?.total ?? 0,
       reference: purchase?.refNumber ?? "",
     })) ?? [];
-  console.log(data?.purchases);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,

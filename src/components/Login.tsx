@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Button, Grid, Paper, TextField } from "@material-ui/core";
 import { Controller, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
-import { AuthContext, UserAuthInfoType } from "../contexts/auth/AuthController";
+import { AuthContext } from "../contexts/auth/AuthController";
 import gloLo from "../assets/img/glo-lo.png";
 export interface UserInfo {
   username: string;
@@ -37,10 +37,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Login = () => {
-  const { handleSubmit, errors, control } = useForm(); // initialize the hook
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm({
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  }); // initialize the hook
   const { handleLogin } = React.useContext(AuthContext);
   const classes = useStyles();
-  const onSubmit = async (data: UserAuthInfoType) => {
+  const onSubmit = async (data: any) => {
     handleLogin(data);
   };
 
@@ -55,9 +64,9 @@ export const Login = () => {
             <Controller
               name='username'
               control={control}
-              as={(props) => (
+              render={({ field }) => (
                 <TextField
-                  {...props}
+                  {...field}
                   variant='outlined'
                   size='small'
                   name='username'
@@ -71,9 +80,9 @@ export const Login = () => {
             <Controller
               name='password'
               control={control}
-              as={(props) => (
+              render={({ field }) => (
                 <TextField
-                  {...props}
+                  {...field}
                   variant='outlined'
                   size='small'
                   className={classes.inputField}

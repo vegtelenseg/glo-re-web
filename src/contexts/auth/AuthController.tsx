@@ -65,7 +65,6 @@ export function AuthController({ children }: Props) {
   const handleLogin = React.useCallback(
     async (userInfo: { password: string; username: string }) => {
       try {
-        console.log("Think");
         const { data } = await axios.post(
           `${process.env.REACT_APP_API_HOST}/auth/local`,
           {
@@ -87,7 +86,7 @@ export function AuthController({ children }: Props) {
           window.location.pathname = "/";
         }
       } catch (error) {
-        console.log("Could not login: ", error.message);
+        console.log("Could not login: ", error);
       }
     },
     [setAuth]

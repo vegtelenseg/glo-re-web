@@ -1,0 +1,10 @@
+mutation redeemRewards($input: redeemRewardsInput!) {
+  redeemRewards(input: $input) {
+    reward {
+      points
+      purchase {
+        name
+      }
+    }
+  }
+}

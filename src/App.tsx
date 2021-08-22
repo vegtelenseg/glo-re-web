@@ -10,7 +10,6 @@ import { Router } from "react-router";
 function App() {
   const { auth } = React.useContext(AuthContext);
   const history = createBrowserHistory();
-  console.log("Auth: ? : ", auth);
   return (
     <Router history={history}>
       <Switch>

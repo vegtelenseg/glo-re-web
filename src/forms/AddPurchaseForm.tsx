@@ -11,7 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import { AuthContext } from "../contexts/auth/AuthController";
 import { useCreateUserPurchaseMutation } from "../generated/graphql";
-import { Toast } from "./Toast";
+import { Toast } from "../components/Toast";
 import { Color } from "@material-ui/lab/Alert";
 
 export interface UserInfo {
@@ -46,8 +46,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const AddReward = () => {
-  const { handleSubmit, errors, control } = useForm();
+interface AddPurchaseProps {
+  name: string;
+  total: string;
+  userEmail: string;
+  refNumber: string;
+}
+
+export const AddPurchaseForm = () => {
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<AddPurchaseProps>({
+    defaultValues: {
+      name: "",
+      total: "",
+      userEmail: "",
+      refNumber: "",
+    },
+  });
+
   const [createdPurchase, setCreatedPurchase] = React.useState(false);
   const { auth } = React.useContext(AuthContext);
   const [createPurchase] = useCreateUserPurchaseMutation({
@@ -99,7 +118,7 @@ export const AddReward = () => {
             <Controller
               name='name'
               control={control}
-              as={(props) => (
+              render={(props) => (
                 <TextField
                   {...props}
                   variant='outlined'
@@ -110,13 +129,13 @@ export const AddReward = () => {
                 />
               )}
             />
-            {errors.username && "Purchase name cannot be blank."}
+            {errors.name && "Purchase name cannot be blank."}
           </Grid>
           <Grid item xs={12} md={12}>
             <Controller
               name='total'
               control={control}
-              as={(props) => (
+              render={(props) => (
                 <TextField
                   {...props}
                   variant='outlined'
@@ -127,13 +146,13 @@ export const AddReward = () => {
                 />
               )}
             />
-            {errors.username && "Total spent cannot be blank."}
+            {errors.total && "Total spent cannot be blank."}
           </Grid>
           <Grid item xs={12} md={12}>
             <Controller
               name='refNumber'
               control={control}
-              as={(props) => (
+              render={(props) => (
                 <TextField
                   {...props}
                   variant='outlined'
@@ -144,24 +163,24 @@ export const AddReward = () => {
                 />
               )}
             />
-            {errors.password && "Ref. No. cannot be blank."}
+            {errors.refNumber && "Ref. No. cannot be blank."}
           </Grid>
           <Grid item xs={12} md={12}>
             <Controller
-              name='email'
+              name='userEmail'
               control={control}
-              as={(props) => (
+              render={(props) => (
                 <TextField
                   {...props}
                   variant='outlined'
                   size='small'
                   label='Customer email'
                   className={classes.inputField}
-                  name='email'
+                  name='userEmail'
                 />
               )}
             />
-            {errors.password && "Customer email cannot be blank."}
+            {errors.userEmail && "Customer email cannot be blank."}
           </Grid>
 
           <Grid item xs={12} sm={12} md={12}>
