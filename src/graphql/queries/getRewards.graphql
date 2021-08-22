@@ -1,9 +1,6 @@
 query getRewards($userId: ID!) {
-  rewards(where: { id: $userId }) {
+  purchases(where: { user: $userId }) {
     points
     created_at
-    purchase {
-      name
-    }
   }
 }

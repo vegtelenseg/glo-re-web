@@ -273,7 +273,7 @@ export const Purchases = () => {
   const rows =
     data?.purchases?.map((purchase) => ({
       dateOfPurchase: purchase?.created_at ?? "",
-      pointsEarned: purchase?.reward?.points ?? "",
+      pointsEarned: purchase?.points ?? "",
       totalSpent: purchase?.total ?? 0,
       reference: purchase?.refNumber ?? "",
     })) ?? [];

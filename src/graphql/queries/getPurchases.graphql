@@ -4,8 +4,6 @@ query getPurchases($userId: ID!) {
     created_at
     refNumber
     total
-    reward {
-      points
-    }
+    points
   }
 }

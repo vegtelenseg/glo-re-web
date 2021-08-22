@@ -11,6 +11,7 @@ import { Purchases } from "./Purchases";
 import { AuthContext } from "../contexts/auth/AuthController";
 import { AddPurchaseForm } from "../forms/AddPurchaseForm";
 import { Typography } from "@material-ui/core";
+import { Profile } from "./Profile";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -30,6 +31,7 @@ export const NavigationBar = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const { auth } = React.useContext(AuthContext);
+  const userRole = auth.authenticated ? auth.role : "";
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
@@ -37,15 +39,15 @@ export const NavigationBar = () => {
   const getTabContent = (activeTab: number) => {
     switch (activeTab) {
       case 0:
-        return <Rewards />;
+        return userRole !== "Customer" ? <div>Hello</div> : <Rewards />;
       case 1:
         return <Purchases />;
       case 2:
-        return auth.authenticated && auth.role === "Admin" ? (
+        return userRole === "Admin" ? (
           <AddPurchaseForm />
         ) : (
           <Typography variant='h4' color='primary'>
-            Profile page, coming soon...
+            <Profile />
           </Typography>
         );
       default:
@@ -66,7 +68,7 @@ export const NavigationBar = () => {
           <Tab icon={<LoyaltyIcon />} aria-label='phone' label='Points' />
 
           <Tab icon={<HistoryIcon />} aria-label='favorite' label='Purchases' />
-          {auth.authenticated && auth.role === "Admin" ? (
+          {userRole === "Admin" ? (
             <Tab
               icon={<AccountCircleIcon />}
               aria-label='person'

@@ -84,7 +84,7 @@ export type LocaleInput = {
 };
 
 
-export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | Purchase | PurchaseConnection | PurchaseAggregator | PurchaseAggregatorSum | PurchaseAggregatorAvg | PurchaseAggregatorMin | PurchaseAggregatorMax | PurchaseGroupBy | PurchaseConnectionId | PurchaseConnectionCreated_At | PurchaseConnectionUpdated_At | PurchaseConnectionName | PurchaseConnectionTotal | PurchaseConnectionUser | PurchaseConnectionReward | PurchaseConnectionRefNumber | PurchaseConnectionPublished_At | CreatePurchasePayload | UpdatePurchasePayload | DeletePurchasePayload | Rewards | RewardsConnection | RewardsAggregator | RewardsAggregatorSum | RewardsAggregatorAvg | RewardsAggregatorMin | RewardsAggregatorMax | RewardsGroupBy | RewardsConnectionId | RewardsConnectionCreated_At | RewardsConnectionUpdated_At | RewardsConnectionPoints | RewardsConnectionPurchase | RewardsConnectionUser | RewardsConnectionPublished_At | CreateRewardPayload | UpdateRewardPayload | DeleteRewardPayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | I18NLocale;
+export type Morph = UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsLoginPayload | UserPermissionsPasswordPayload | Purchase | PurchaseConnection | PurchaseAggregator | PurchaseAggregatorSum | PurchaseAggregatorAvg | PurchaseAggregatorMin | PurchaseAggregatorMax | PurchaseGroupBy | PurchaseConnectionId | PurchaseConnectionCreated_At | PurchaseConnectionUpdated_At | PurchaseConnectionName | PurchaseConnectionTotal | PurchaseConnectionUser | PurchaseConnectionReward | PurchaseConnectionRefNumber | PurchaseConnectionPoints | PurchaseConnectionLitres | PurchaseConnectionPublished_At | CreatePurchasePayload | UpdatePurchasePayload | DeletePurchasePayload | Rewards | RewardsConnection | RewardsAggregator | RewardsAggregatorSum | RewardsAggregatorAvg | RewardsAggregatorMin | RewardsAggregatorMax | RewardsGroupBy | RewardsConnectionId | RewardsConnectionCreated_At | RewardsConnectionUpdated_At | RewardsConnectionPoints | RewardsConnectionPurchase | RewardsConnectionUser | RewardsConnectionPublished_At | CreateRewardPayload | UpdateRewardPayload | DeleteRewardPayload | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleConnection | UsersPermissionsRoleAggregator | UsersPermissionsRoleGroupBy | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionType | CreateRolePayload | UpdateRolePayload | DeleteRolePayload | UsersPermissionsUser | UsersPermissionsUserConnection | UsersPermissionsUserAggregator | UsersPermissionsUserGroupBy | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionRole | CreateUserPayload | UpdateUserPayload | DeleteUserPayload | UploadFile | UploadFileConnection | UploadFileAggregator | UploadFileAggregatorSum | UploadFileAggregatorAvg | UploadFileAggregatorMin | UploadFileAggregatorMax | UploadFileGroupBy | UploadFileConnectionId | UploadFileConnectionCreated_At | UploadFileConnectionUpdated_At | UploadFileConnectionName | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionWidth | UploadFileConnectionHeight | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionExt | UploadFileConnectionMime | UploadFileConnectionSize | UploadFileConnectionUrl | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | DeleteFilePayload | I18NLocale;
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -262,6 +262,8 @@ export type Purchase = {
   user?: Maybe<UsersPermissionsUser>;
   reward?: Maybe<Rewards>;
   refNumber?: Maybe<Scalars['String']>;
+  points?: Maybe<Scalars['Float']>;
+  litres?: Maybe<Scalars['Float']>;
   published_at?: Maybe<Scalars['DateTime']>;
 };
 
@@ -278,21 +280,29 @@ export type PurchaseAggregator = {
 export type PurchaseAggregatorAvg = {
   __typename?: 'PurchaseAggregatorAvg';
   total?: Maybe<Scalars['Float']>;
+  points?: Maybe<Scalars['Float']>;
+  litres?: Maybe<Scalars['Float']>;
 };
 
 export type PurchaseAggregatorMax = {
   __typename?: 'PurchaseAggregatorMax';
   total?: Maybe<Scalars['Float']>;
+  points?: Maybe<Scalars['Float']>;
+  litres?: Maybe<Scalars['Float']>;
 };
 
 export type PurchaseAggregatorMin = {
   __typename?: 'PurchaseAggregatorMin';
   total?: Maybe<Scalars['Float']>;
+  points?: Maybe<Scalars['Float']>;
+  litres?: Maybe<Scalars['Float']>;
 };
 
 export type PurchaseAggregatorSum = {
   __typename?: 'PurchaseAggregatorSum';
   total?: Maybe<Scalars['Float']>;
+  points?: Maybe<Scalars['Float']>;
+  litres?: Maybe<Scalars['Float']>;
 };
 
 export type PurchaseConnection = {
@@ -314,9 +324,21 @@ export type PurchaseConnectionId = {
   connection?: Maybe<PurchaseConnection>;
 };
 
+export type PurchaseConnectionLitres = {
+  __typename?: 'PurchaseConnectionLitres';
+  key?: Maybe<Scalars['Float']>;
+  connection?: Maybe<PurchaseConnection>;
+};
+
 export type PurchaseConnectionName = {
   __typename?: 'PurchaseConnectionName';
   key?: Maybe<Scalars['String']>;
+  connection?: Maybe<PurchaseConnection>;
+};
+
+export type PurchaseConnectionPoints = {
+  __typename?: 'PurchaseConnectionPoints';
+  key?: Maybe<Scalars['Float']>;
   connection?: Maybe<PurchaseConnection>;
 };
 
@@ -366,6 +388,8 @@ export type PurchaseGroupBy = {
   user?: Maybe<Array<Maybe<PurchaseConnectionUser>>>;
   reward?: Maybe<Array<Maybe<PurchaseConnectionReward>>>;
   refNumber?: Maybe<Array<Maybe<PurchaseConnectionRefNumber>>>;
+  points?: Maybe<Array<Maybe<PurchaseConnectionPoints>>>;
+  litres?: Maybe<Array<Maybe<PurchaseConnectionLitres>>>;
   published_at?: Maybe<Array<Maybe<PurchaseConnectionPublished_At>>>;
 };
 
@@ -375,6 +399,8 @@ export type PurchaseInput = {
   user?: Maybe<Scalars['ID']>;
   reward?: Maybe<Scalars['ID']>;
   refNumber?: Maybe<Scalars['String']>;
+  points?: Maybe<Scalars['Float']>;
+  litres?: Maybe<Scalars['Float']>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -1108,6 +1134,7 @@ export type CreateUserPayload = {
 export type CreateUserPurchaseInput = {
   name: Scalars['String'];
   total: Scalars['Float'];
+  litres: Scalars['Float'];
   userEmail: Scalars['String'];
   refNumber: Scalars['String'];
 };
@@ -1190,6 +1217,8 @@ export type EditPurchaseInput = {
   user?: Maybe<Scalars['ID']>;
   reward?: Maybe<Scalars['ID']>;
   refNumber?: Maybe<Scalars['String']>;
+  points?: Maybe<Scalars['Float']>;
+  litres?: Maybe<Scalars['Float']>;
   published_at?: Maybe<Scalars['DateTime']>;
   created_by?: Maybe<Scalars['ID']>;
   updated_by?: Maybe<Scalars['ID']>;
@@ -1327,11 +1356,7 @@ export type GetPurchasesQuery = (
   { __typename?: 'Query' }
   & { purchases?: Maybe<Array<Maybe<(
     { __typename?: 'Purchase' }
-    & Pick<Purchase, 'name' | 'created_at' | 'refNumber' | 'total'>
-    & { reward?: Maybe<(
-      { __typename?: 'Rewards' }
-      & Pick<Rewards, 'points'>
-    )> }
+    & Pick<Purchase, 'name' | 'created_at' | 'refNumber' | 'total' | 'points'>
   )>>> }
 );
 
@@ -1342,13 +1367,9 @@ export type GetRewardsQueryVariables = Exact<{
 
 export type GetRewardsQuery = (
   { __typename?: 'Query' }
-  & { rewards?: Maybe<Array<Maybe<(
-    { __typename?: 'Rewards' }
-    & Pick<Rewards, 'points' | 'created_at'>
-    & { purchase?: Maybe<(
-      { __typename?: 'Purchase' }
-      & Pick<Purchase, 'name'>
-    )> }
+  & { purchases?: Maybe<Array<Maybe<(
+    { __typename?: 'Purchase' }
+    & Pick<Purchase, 'points' | 'created_at'>
   )>>> }
 );
 
@@ -1442,9 +1463,7 @@ export const GetPurchasesDocument = gql`
     created_at
     refNumber
     total
-    reward {
-      points
-    }
+    points
   }
 }
     `;
@@ -1478,12 +1497,9 @@ export type GetPurchasesLazyQueryHookResult = ReturnType<typeof useGetPurchasesL
 export type GetPurchasesQueryResult = Apollo.QueryResult<GetPurchasesQuery, GetPurchasesQueryVariables>;
 export const GetRewardsDocument = gql`
     query getRewards($userId: ID!) {
-  rewards(where: {id: $userId}) {
+  purchases(where: {user: $userId}) {
     points
     created_at
-    purchase {
-      name
-    }
   }
 }
     `;

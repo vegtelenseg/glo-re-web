@@ -50,6 +50,7 @@ interface AddPurchaseProps {
   name: string;
   total: string;
   userEmail: string;
+  litres: number;
   refNumber: string;
 }
 
@@ -63,6 +64,7 @@ export const AddPurchaseForm = () => {
       name: "",
       total: "",
       userEmail: "",
+      litres: 0,
       refNumber: "",
     },
   });
@@ -84,7 +86,8 @@ export const AddPurchaseForm = () => {
         input: {
           name: data.name,
           total: Number(data.total),
-          userEmail: data.email,
+          litres: Number(data.litres),
+          userEmail: data.userEmail,
           refNumber: data.refNumber,
         },
       },
@@ -118,9 +121,9 @@ export const AddPurchaseForm = () => {
             <Controller
               name='name'
               control={control}
-              render={(props) => (
+              render={({ field }) => (
                 <TextField
-                  {...props}
+                  {...field}
                   variant='outlined'
                   size='small'
                   name='name'
@@ -135,9 +138,9 @@ export const AddPurchaseForm = () => {
             <Controller
               name='total'
               control={control}
-              render={(props) => (
+              render={({ field }) => (
                 <TextField
-                  {...props}
+                  {...field}
                   variant='outlined'
                   size='small'
                   name='name'
@@ -150,11 +153,28 @@ export const AddPurchaseForm = () => {
           </Grid>
           <Grid item xs={12} md={12}>
             <Controller
+              name='litres'
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  variant='outlined'
+                  size='small'
+                  name='name'
+                  label='Litres'
+                  className={classes.inputField}
+                />
+              )}
+            />
+            {errors.litres && "Litres cannot be blank."}
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <Controller
               name='refNumber'
               control={control}
-              render={(props) => (
+              render={({ field }) => (
                 <TextField
-                  {...props}
+                  {...field}
                   variant='outlined'
                   size='small'
                   label='Reference or Barcode No.'
@@ -169,14 +189,13 @@ export const AddPurchaseForm = () => {
             <Controller
               name='userEmail'
               control={control}
-              render={(props) => (
+              render={({ field }) => (
                 <TextField
-                  {...props}
+                  {...field}
                   variant='outlined'
                   size='small'
                   label='Customer email'
                   className={classes.inputField}
-                  name='userEmail'
                 />
               )}
             />

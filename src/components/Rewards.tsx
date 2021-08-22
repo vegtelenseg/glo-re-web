@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Box,
   makeStyles,
@@ -9,9 +9,10 @@ import {
 } from "@material-ui/core";
 import "react-circular-progressbar/dist/styles.css";
 import { theme } from "../themes/theme";
-import { gql, useQuery } from "@apollo/client";
 import { CircularProgressbar } from "react-circular-progressbar";
 import { RedeemPointsForm } from "../forms/RedeemPointsForm";
+import { useGetRewardsQuery } from "../generated/graphql";
+import { AuthContext } from "../contexts/auth/AuthController";
 
 const useStyles = makeStyles((them) => ({
   rewardsPanel: {
@@ -31,14 +32,12 @@ const useStyles = makeStyles((them) => ({
 export const Rewards = () => {
   const classes = useStyles();
   const [open, setModalIsOpen] = useState(false);
-
-  const { data, error, loading, refetch } = useQuery(gql`
-    {
-      rewards {
-        points
-      }
-    }
-  `);
+  const { auth } = useContext(AuthContext);
+  const { data, error, loading, refetch } = useGetRewardsQuery({
+    variables: {
+      userId: auth.authenticated ? auth.id : "",
+    },
+  });
   if (loading) {
     return <CircularProgress />;
   } else if (error) {
@@ -46,10 +45,15 @@ export const Rewards = () => {
   } else {
     // TODO: Find better way to refetch
     refetch();
-    const totalRewards = data.rewards.reduce(
-      (accumulator: any, currentValue: any) =>
-        accumulator + currentValue.points,
-      0
+    // Sums up points, fixes them to two decimal places and convert to string
+    const totalRewards = Number(
+      (
+        data?.purchases?.reduce(
+          (accumulator: any, currentValue: any) =>
+            accumulator + currentValue.points,
+          0
+        ) as number
+      ).toFixed(2)
     );
     return (
       <div className={classes.rewardsPanel}>
@@ -66,6 +70,7 @@ export const Rewards = () => {
         <CircularProgressbar
           value={totalRewards}
           text={`${totalRewards}`}
+          // TODO: Get max points value from the back end
           maxValue={3000}
           strokeWidth={6}
           styles={{
